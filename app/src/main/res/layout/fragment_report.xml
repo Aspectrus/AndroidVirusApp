@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DBFFFFFF"
+    android:gravity="center"
+
+    >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+
+        <TableLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:id="@+id/row"
+                android:background="#0D100C"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/cell1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Country"
+                    android:textColor="#75D6CFB3" />
+
+                <TextView
+                    android:id="@+id/cell2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total Cases"
+                    android:textColor="#75D6CFB3" />
+
+                <TextView
+                    android:id="@+id/cell3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total Recovered"
+                    android:textColor="#75D6CFB3" />
+
+                <TextView
+                    android:id="@+id/cell4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Total Deaths"
+                    android:textColor="#75D6CFB3" />
+            </TableRow>
+        </TableLayout>
+
+    </ScrollView>
+</RelativeLayout>
