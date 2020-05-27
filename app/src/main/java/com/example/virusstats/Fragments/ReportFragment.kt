@@ -10,36 +10,43 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.virusstats.R
-import org.w3c.dom.Text
 
-
+public var result: Map<String, Report> = mapOf()
+public var dateresult: Map<String, DateReport> = mapOf()
 class ReportFragment : Fragment() {
 
+
+    private var reportallreadyloaded = false;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       val view =  inflater.inflate(R.layout.fragment_report, container, false)
-       return view
+       return inflater.inflate(R.layout.fragment_report, container, false)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if(AllReports.size!=0)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if(AllReports.size!=0 && !reportallreadyloaded)
         {
-            val aggregate = AllReports.groupingBy(Report::Country_Region)         .aggregate { _, accumulator: Report?, element: Report, _ ->
+            val aggregate = AllReports.groupingBy(Report::Country_Region).aggregate { _, accumulator: Report?, element: Report, _ ->
                     accumulator?.let {
-                        it.copy(Confirmed = it.Confirmed?.plus(element.Confirmed!!), Recovered = it.Recovered?.plus(
-                            element.Recovered!!
-                        ), Deaths = it.Deaths?.plus(element.Deaths!!)
+                        it.copy(
+                            Confirmed = it.Confirmed?.plus(element.Confirmed!!),
+                            Recovered = it.Recovered?.plus(element.Recovered!!),
+                            Deaths = it.Deaths?.plus(element.Deaths!!),
+                            Active = it.Active?.plus(element.Active!!)
                         )
                     } ?: element
                 }
 
-        val result = aggregate.toList().sortedByDescending { (_, value) -> value.Confirmed}.toMap()
+             result =
+                aggregate.toList().sortedByDescending { (_, value) -> value.Confirmed }.toMap()
+           var MaxActive:Double =0.0
             for (key in result.keys)
             {
 
+                if(MaxActive< result[key]?.Active!!) MaxActive = result[key]?.Active!!
                 val detailsTable = activity?.findViewById<TableLayout>(R.id.layout)
                 val tableRow: TableRow = layoutInflater.inflate(R.layout.tablerow,null) as TableRow
 
@@ -70,7 +77,8 @@ class ReportFragment : Fragment() {
                 }
 
             }
-
+            MaxCircleSize/=MaxActive
+            reportallreadyloaded = true;
         }
     }
 
